@@ -1,16 +1,27 @@
 import QtQuick 2.0
+import "model"
 
 Rectangle {
-    width: 360
-    height: 360
-    Text {
-        anchors.centerIn: parent
-        text: "Hello World"
+    id:window
+    width: 320;height: 450
+
+    Rectangle {
+        anchors.fill: parent;
+        id: appBackground
+        color: "#b73b3b"
     }
-    MouseArea {
-        anchors.fill: parent
-        onClicked: {
-            Qt.quit();
+
+    Column {
+        anchors.fill: parent;
+
+        AppTitle {
+            id: appTitle
+            width: parent.width; height: 30;
+        }
+
+
+        LoginPanel {
+            width: parent.width; height: parent.height - appTitle.height
         }
     }
 }
