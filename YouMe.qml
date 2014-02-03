@@ -20,7 +20,10 @@ Rectangle {
         }
 
 
-        LoginPanel {
+//        LoginPanel {
+//            width: parent.width; height: parent.height - appTitle.height
+//        }
+        MainPanel {
             width: parent.width; height: parent.height - appTitle.height
         }
     }

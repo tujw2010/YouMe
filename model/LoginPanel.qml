@@ -163,30 +163,6 @@ Item {
                     name: "关于"
                     code: "4"
                 }
-                ListElement {
-                    name: "关于"
-                    code: "4"
-                }
-                ListElement {
-                    name: "关于"
-                    code: "4"
-                }
-                ListElement {
-                    name: "关于"
-                    code: "4"
-                }
-                ListElement {
-                    name: "关于"
-                    code: "4"
-                }
-                ListElement {
-                    name: "关于"
-                    code: "4"
-                }
-                ListElement {
-                    name: "关于"
-                    code: "4"
-                }
             }
 
             model: loginModel
