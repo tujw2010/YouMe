@@ -15,6 +15,13 @@ Flickable {
         }
     }
 
+    onContentXChanged: {
+        if(Math.abs(contentX) >= width / 3) {
+            if(!flickable.dragging)
+            flickStarted()
+        }
+    }
+
     onFlickStarted: {
         if(Math.abs(contentX) >= 40) {
             if (contentX > 0) {

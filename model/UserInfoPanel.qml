@@ -16,11 +16,18 @@ Flickable {
         }
     }
 
+    onContentXChanged: {
+        if(Math.abs(contentX) >= width / 3) {
+            if(!flickable.dragging)
+                flickStarted()
+        }
+    }
+
     onFlickStarted: {
         if(Math.abs(contentX) >= 40) {
             if (contentX > 0) {
                 flickable.state = "toLeft"
-           } else {
+            } else {
                 flickable.state = "toRight"
             }
 
@@ -58,10 +65,12 @@ Flickable {
     ]
 
     Column {
+        id:centerArea
         anchors.fill: parent;
         anchors.topMargin: 15; anchors.bottomMargin: 20;
         anchors.margins: 8
         spacing: 8;
+        clip:true
 
         Row {
             id:contentArea
@@ -71,16 +80,22 @@ Flickable {
             Column {
                 id: userColumn
                 spacing: 18
+                y:5
 
                 Column {
-
-                    Text {
-                        text: "涂健武"
-                    }
+                    Text { text: "涂健武"}
 
                     Rectangle {
                         width:60; height: 60;
                         color: "red"
+
+                        MouseArea {
+                            anchors.fill: parent;
+
+                            onClicked: {
+                                loverInfoPanel.state = "show"
+                            }
+                        }
                     }
                 }
 
@@ -171,5 +186,14 @@ Flickable {
                 wrapMode: Text.WrapAnywhere
             }
         }
+
+    }
+
+    LoverInfoPanel {
+        id:loverInfoPanel
+        width: centerArea.width; height: centerArea.height
+        anchors.top: centerArea.top; anchors.topMargin: 0
+        anchors.bottom: centerArea.bottom; anchors.bottomMargin: 0
+        anchors.margins: 8;
     }
 }

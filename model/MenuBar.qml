@@ -36,7 +36,7 @@ Item {
     }
 
     Rectangle {
-        color:"#534530"
+        color:"black"
         opacity: 0.9
         anchors.fill: parent
     }
