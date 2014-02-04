@@ -11,6 +11,8 @@ Rectangle {
         anchors.fill: parent
         property int previousIndex: 0
 
+        focus: true
+
         onPageChange: {
 
             if(previousIndex + 1 == index || previousIndex == menuList.count - 1 && index == 0) {
@@ -42,9 +44,37 @@ Rectangle {
 
         initialItem:userInfo;
 
-        UserInfoPanel{ id: userInfo; visible: false}
-        ZonePanel {id:zonePanel; visible: false}
-        AboutPanel {id:aboutPanel; visible: false}
+        UserInfoPanel{
+            id: userInfo; visible: false
+
+            onMoving: {
+                if (x > 0) {
+                    menuBar.menuList.incrementCurrentIndex();
+                } else {
+                    menuBar.menuList.decrementCurrentIndex();
+                }
+            }
+        }
+
+
+        ZonePanel {id:zonePanel; visible: false
+            onMoving: {
+                if (x > 0) {
+                    menuBar.menuList.incrementCurrentIndex();
+                } else {
+                    menuBar.menuList.decrementCurrentIndex();
+                }
+            }
+        }
+        AboutPanel {id:aboutPanel; visible: false
+            onMoving: {
+                if (x > 0) {
+                    menuBar.menuList.incrementCurrentIndex();
+                } else {
+                    menuBar.menuList.decrementCurrentIndex();
+                }
+            }
+        }
 
         delegate: rightToLeftDelegate;
 
@@ -53,6 +83,8 @@ Rectangle {
             function transitionFinished(properties)
             {
                 properties.exitItem.x = 0
+                properties.exitItem.contentX = 0;
+                properties.exitItem.state = "normal"
             }
 
             property Component pushTransition: StackViewTransition {
@@ -65,7 +97,7 @@ Rectangle {
                 PropertyAnimation {
                     target: exitItem
                     property: "x"
-                    from: 0
+                   // from: 0
                     to: -exitItem.width
                 }
             }
@@ -77,13 +109,15 @@ Rectangle {
             function transitionFinished(properties)
             {
                 properties.enterItem.x = 0
+                properties.exitItem.contentX = 0;
+                properties.exitItem.state = "normal"
             }
 
             property Component pushTransition: StackViewTransition {
                 PropertyAnimation {
                     target: exitItem
                     property: "x"
-                    from: 0
+                   // from: 0
                     to: exitItem.width
                 }
                 PropertyAnimation {
