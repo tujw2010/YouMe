@@ -55,141 +55,35 @@ Item {
     Column {
         id: loginArea
         anchors.left: userInfoArea.right; anchors.leftMargin: 20
+        spacing: -8
 
         Rectangle {
-            color: "white"
-            width: 1; height: 130;
+            color: Qt.darker("white", 1.4)
+            width: 1; height: 140;
             anchors.horizontalCenter: parent.horizontalCenter
         }
 
-        Text {
-            text:"登陆"
-        }
-    }
+        Item {
+            width: img.width; height: img.height
 
-    Item {
-        id:bar
-        state: "show"
-        width: parent.width; height: 90
-
-        property int hideHeight: 18
-        property int minY : bar.parent.height - bar.height
-        property int maxY: bar.parent.height - hideHeight
-
-        signal actionCode(int code);
-
-        function toggle() {
-            if (bar.state == "show") {
-                bar.state = "hide";
-            } else {
-                bar.state = "show";
-            }
-        }
-
-        function releaseSwitch() {
-            if (bar.y <= minY + 1) {
-                if (bar.state == "show") {
-                    bar.state = "show";
-                    return;
-                }
-            }
-            if (bar.y >= maxY - 1) {
-                if (bar.state == "hide") {
-                    bar.state = "hide";
-                    return;
-                }
-            }
-            toggle();
-        }
-
-        Rectangle {
-            color:"#534530"
-            opacity: 0.9
-            anchors.fill: parent
-        }
-
-        Row {
-            id: knot
-            anchors.right: parent.right
-            anchors.top: parent.top
-            anchors.rightMargin: 12
-            anchors.topMargin: 5
-            spacing: 4
-
-            property int size: 4
-
-            Rectangle {
-                color:"white"
-                width: knot.size;height: knot.size; radius: knot.size
-            }
-            Rectangle {
-                color:"white"
-                width: knot.size;height: knot.size; radius: knot.size
-            }
-            Rectangle {
-                color:"white"
-                width: knot.size;height: knot.size; radius: knot.size
-            }
-        }
-
-        MouseArea {
-            anchors.fill: parent
-            drag.target: parent; drag.axis: Drag.YAxis;
-            drag.minimumY: bar.minY; drag.maximumY: bar.maxY
-
-            onClicked: parent.toggle()
-            onReleased: parent.releaseSwitch()
-        }
-
-        GridView {
-            id: grid
-            anchors.fill: parent
-            anchors.margins: 8
-            anchors.topMargin: parent.hideHeight
-            anchors.bottomMargin: 14
-            cellHeight: 60; cellWidth: 60;
-            snapMode:GridView.SnapToRow
-
-            clip: true
-
-            ListModel {
-                id: loginModel
-                ListElement {
-                    img: "sef"
-                    name: "注册"
-                    code: "1"
-                }
-                ListElement {
-                    name: "关于"
-                    code: "4"
-                }
+            Image {
+                id: img
+                rotation: 180
+                sourceSize.width: 48; sourceSize.height: 48;
+                source: "http://download.easyicon.net/png/1132459/48/"
             }
 
-            model: loginModel
-
-            delegate:Rectangle {
-                width: 59;height: 59
+            Text {
+                anchors.centerIn: parent
+                text:"登录"
+                font.family: "微软雅黑"
                 color: "white"
+            }
 
-                Column {
-                    anchors.fill: parent
-                    spacing: 8
-
-                    Rectangle {
-                        id: background
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        color:"#ee3524"
-                        width: 35; height: 35
-                        radius: width
-                    }
-
-                    Text {
-                        id:action
-                        text: name
-
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        color:"red"
-                    }
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    loginArea.state = "hide"
                 }
             }
         }
@@ -198,23 +92,23 @@ Item {
             State {
                 name: "show"
                 PropertyChanges {
-                    target: bar
-                    y:bar.minY
-                    focus:true
+                    target: loginArea
+                    y: 0
                 }
             },
             State {
                 name: "hide"
                 PropertyChanges {
-                    target: bar
-                    y:bar.maxY
-                    focus:true
+                    target: loginArea
+                    y: -loginArea.height
                 }
-            }]
+            }
+        ]
 
-        transitions: Transition {
-            NumberAnimation { properties: "y"; easing.type: Easing.InOutQuad; duration: 150 }
-        }
+        transitions: [
+            Transition {
+                NumberAnimation { property: "y"; easing.type: Easing.InBack }
+            }
+        ]
     }
-
 }

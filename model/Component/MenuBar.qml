@@ -1,14 +1,19 @@
 import QtQuick 2.0
+import ".."
 
 Rectangle {
     id: menuBar
     color:"transparent"
 
+    signal pageChange(int index);
+
+    property alias menuList: pathView
+
     ListModel {
         id: menuModel
 
-        ListElement { name: "个人中心" }
-        ListElement { name: "空间" }
+        ListElement { name: "个人中心"; }
+        ListElement { name: "空间"; }
         ListElement { name: "关于" }
     }
 
@@ -16,6 +21,10 @@ Rectangle {
         id:pathView
         anchors.fill: parent; anchors.topMargin: 15
         dragMargin: parent.height
+
+        onCurrentItemChanged: {
+            menuBar.pageChange(pathView.currentIndex);
+        }
 
         model: menuModel
         delegate: Item {

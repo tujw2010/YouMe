@@ -12,20 +12,26 @@ Rectangle {
     }
 
     Column {
-        anchors.fill: parent;
+        anchors.fill: parent
 
         AppTitle {
             id: appTitle
             width: parent.width; height: 30;
         }
 
-
 //        LoginPanel {
 //            width: parent.width; height: parent.height - appTitle.height
+//            clip: true
 //        }
+
         MainPanel {
             width: parent.width; height: parent.height - appTitle.height
+            clip: true
         }
+    }
+
+    MenuBar {
+        id: menuBar
     }
 }
 

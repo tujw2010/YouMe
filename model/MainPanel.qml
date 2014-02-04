@@ -6,74 +6,93 @@ import "Component"
 Rectangle {
     color: "gray"
 
-
     MenuBar {
         id:menuBar
         anchors.fill: parent
+        property int previousIndex: 0
+
+        onPageChange: {
+
+            if(previousIndex + 1 == index || previousIndex == menuList.count - 1 && index == 0) {
+                stackView.delegate = rightToLeftDelegate;
+            } else {
+                stackView.delegate = leftToRightDelegate;
+            }
+
+            switch (index) {
+            case 0:
+                stackView.push(userInfo)
+                break;
+            case 1:
+                stackView.push(zonePanel)
+                break;
+            case 2:
+                stackView.push(aboutPanel)
+                break;
+            }
+
+            previousIndex = index;
+        }
     }
 
-    SplitView {
-        anchors.fill: parent
-        orientation: Qt.Horizontal
+    StackView {
+        id: stackView
+        anchors.fill: parent;
+        anchors.topMargin: 24
 
-        Rectangle {
-            width: 200
-            Layout.maximumWidth: 400
-            color: "gray"
+        initialItem:userInfo;
+
+        UserInfoPanel{ id: userInfo; visible: false}
+        ZonePanel {id:zonePanel; visible: false}
+        AboutPanel {id:aboutPanel; visible: false}
+
+        delegate: rightToLeftDelegate;
+
+        StackViewDelegate {
+            id: rightToLeftDelegate
+            function transitionFinished(properties)
+            {
+                properties.exitItem.x = 0
+            }
+
+            property Component pushTransition: StackViewTransition {
+                PropertyAnimation {
+                    target: enterItem
+                    property: "x"
+                    from: enterItem.width
+                    to: 0
+                }
+                PropertyAnimation {
+                    target: exitItem
+                    property: "x"
+                    from: 0
+                    to: -exitItem.width
+                }
+            }
         }
-        Rectangle {
-            id: centerItem
-            Layout.minimumWidth: 50
-            Layout.fillWidth: true
-            color: "darkgray"
-        }
-        Rectangle {
-            width: 200
-            color: "gray"
+
+        StackViewDelegate {
+            id: leftToRightDelegate
+
+            function transitionFinished(properties)
+            {
+                properties.enterItem.x = 0
+            }
+
+            property Component pushTransition: StackViewTransition {
+                PropertyAnimation {
+                    target: exitItem
+                    property: "x"
+                    from: 0
+                    to: exitItem.width
+                }
+                PropertyAnimation {
+                    target: enterItem
+                    property: "x"
+                    from: -enterItem.width
+                    to: 0
+                }
+            }
         }
     }
-
-//    Column {
-//        id:contentArea
-//        anchors.fill: parent;
-//        anchors.topMargin: 45; anchors.margins: 8
-//        spacing: 18
-
-//        Column {
-
-//            Text {
-//                text: "涂健武"
-//            }
-
-//            Rectangle {
-//                width:60; height: 60;
-//                color: "red"
-//            }
-//        }
-
-//        Column {
-//            Text {
-//                text: "某某某"
-//            }
-
-//            Rectangle {
-//                width:60; height: 60;
-//                color: "red"
-//            }
-//        }
-
-//    }
-//    Column {
-//        anchors.bottom: contentArea.bottom
-//        Text {
-//            text: "爱情保鲜剂"
-//        }
-
-
-//        Text {
-//            width: contentArea.width
-//            text:"包容，没有谁是十全十美，两个人在一起，就是互相包容。《心灵捕手》中西恩描绘妻子放屁的表情，不是嫌弃，不是不堪，那是一种对另一方的缺点的包容与宠溺，是她的缺点只有我知道的占有的荣耀。正是缺点才铸就了每个独一无二的人，才决定了允许谁进入自己的世界。"
-//            wrapMode: Text.WrapAnywhere
-//        }
-//    }
 }
