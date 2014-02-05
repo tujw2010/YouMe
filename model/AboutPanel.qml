@@ -10,7 +10,7 @@ Flickable {
     rebound: Transition {
         NumberAnimation {
             property: "x"
-            duration: 200;
+            duration: 300;
             easing.type: Easing.Linear
         }
     }

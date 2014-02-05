@@ -10,7 +10,7 @@ Flickable {
     rebound: Transition {
         NumberAnimation {
             property: "x"
-            duration: 200;
+            duration: 300;
             easing.type: Easing.Linear
         }
     }
@@ -63,6 +63,7 @@ Flickable {
 
 
     GridView {
+        id:gridView
         anchors.fill: parent;
         anchors.topMargin: 15; anchors.bottomMargin: 20;
         anchors.margins: 8
@@ -92,46 +93,89 @@ Flickable {
                 user: "涂健武"
                 time:"2014-2-4"
             }
-            ListElement {
-                user: "涂健武"
-                time:"2014-2-4"
-            }
-            ListElement {
-                user: "涂健武"
-                time:"2014-2-4"
-            }
-            ListElement {
-                user: "涂健武"
-                time:"2014-2-4"
-            }
         }
 
         model: imageModel
         delegate: Item {
+            id:main
             width: 80; height: 130;
 
-            Rectangle {
-                anchors.fill: parent;
-                color: "red"
-            }
-            Rectangle {
-                id: imgTitle
-                width: parent.width; height: 20
-                anchors.bottom: parent.bottom;
-                color:"black"
-                opacity: 0.4
-            }
+            Item {
+                id:img
+                state: "inGrid";
 
-            Text {
-                anchors.left: imgTitle.left;anchors.leftMargin: 4
-                anchors.verticalCenter: imgTitle.verticalCenter
-                text:time
-                font.pixelSize: 11
-                color:"white"
-                font.family: "微软雅黑"
-            }
+                Rectangle {
+                    anchors.fill: parent;
+                    color: "red"
+                }
 
+                Item {
+                    id: imgTitleBar
+                    width: parent.width; height: 20
+                    anchors.bottom: parent.bottom;
+
+                    Rectangle {
+                        id:imgTitle;color:"black";opacity: 0.4;anchors.fill: parent;
+                    }
+
+                    Text {
+                        anchors.left: imgTitle.left;anchors.leftMargin: 4
+                        anchors.verticalCenter: imgTitle.verticalCenter
+                        text:time
+                        font.pixelSize: 11
+                        color:"white"
+                        font.family: "微软雅黑"
+                    }
+                }
+
+                MouseArea {
+                    anchors.fill: img;
+                    onClicked: {
+                        img.state = img.state == "fullScreen" ? "inGrid" : "fullScreen"
+                    }
+                }
+
+                states: [
+                    State {
+                        name: "fullScreen"
+                        ParentChange {
+                            target:img;
+                            parent:window;
+                            x:0; y:0; width: window.width; height: window.height;
+                        }
+                        PropertyChanges {
+                            target: imgTitleBar
+                            opacity: 0
+                        }
+                    },
+                    State {
+                        name: "inGrid"
+                        ParentChange {
+                            target:img;
+                            parent:main;
+                            x:0; y:0; width:main.width; height:main.height
+                        }
+                        PropertyChanges {
+                            target: imgTitleBar
+                            opacity: 1
+                        }
+                    }
+                ]
+
+                transitions: [
+                    Transition {
+                        NumberAnimation {
+                            target: imgTitleBar
+                            property: "opacity"
+                            duration: 500;
+                        }
+                        ParentAnimation {
+                            target: img; via:window
+                            NumberAnimation { properties: "width, height, x,y"; duration: 350 }
+                        }
+                    }
+                ]
+            }
         }
-
     }
 }

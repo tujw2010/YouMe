@@ -2,6 +2,13 @@ import QtQuick 2.0
 import "Component"
 
 Item {
+    id:loginPanel
+    state: "logout"
+
+    Rectangle {
+        anchors.fill: parent;
+        color:"#f37e7e"
+    }
 
     Text {
         y:350
@@ -64,10 +71,11 @@ Item {
         }
 
         Item {
-            width: img.width; height: img.height
+            id:img
+            width: img1.width; height: img1.height
 
             Image {
-                id: img
+                id: img1
                 rotation: 180
                 sourceSize.width: 48; sourceSize.height: 48;
                 source: "http://download.easyicon.net/png/1132459/48/"
@@ -83,32 +91,36 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    loginArea.state = "hide"
+                    loginPanel.state = loginPanel.state == "login" ? "logout" : "login";
                 }
             }
         }
-
-        states: [
-            State {
-                name: "show"
-                PropertyChanges {
-                    target: loginArea
-                    y: 0
-                }
-            },
-            State {
-                name: "hide"
-                PropertyChanges {
-                    target: loginArea
-                    y: -loginArea.height
-                }
-            }
-        ]
-
-        transitions: [
-            Transition {
-                NumberAnimation { property: "y"; easing.type: Easing.InBack }
-            }
-        ]
     }
+
+    states: [
+        State {
+            name: "login"
+            PropertyChanges {
+                target:loginArea
+                y: -loginArea.height
+            }
+            PropertyChanges {
+                target:loginPanel
+                y: -loginPanel.height
+            }
+        },
+        State {
+            name: "logout"
+            PropertyChanges {
+                target:loginArea
+                y: 0
+            }
+        }
+    ]
+
+    transitions: Transition {
+        NumberAnimation { target: loginArea; properties: "y"; easing.type: Easing.OutCirc; duration: 200 }
+        NumberAnimation { target: loginPanel; properties: "y"; easing.type: Easing.OutCirc; duration: 1000 }
+    }
+
 }

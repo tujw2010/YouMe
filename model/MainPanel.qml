@@ -4,14 +4,13 @@ import QtQuick.Layouts 1.0
 import "Component"
 
 Rectangle {
+    id:mainPanel
     color: "gray"
 
     MenuBar {
         id:menuBar
         anchors.fill: parent
         property int previousIndex: 0
-
-        focus: true
 
         onPageChange: {
 
@@ -97,7 +96,6 @@ Rectangle {
                 PropertyAnimation {
                     target: exitItem
                     property: "x"
-                   // from: 0
                     to: -exitItem.width
                 }
             }
@@ -117,7 +115,6 @@ Rectangle {
                 PropertyAnimation {
                     target: exitItem
                     property: "x"
-                   // from: 0
                     to: exitItem.width
                 }
                 PropertyAnimation {
@@ -128,5 +125,14 @@ Rectangle {
                 }
             }
         }
+    }
+
+    NumberAnimation {
+        running: visible
+        id:showAnimation
+        target:mainPanel
+        property: "opacity";
+        from: 0; to: 1;
+        duration: 500
     }
 }
