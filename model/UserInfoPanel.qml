@@ -74,7 +74,7 @@ Flickable {
 
         Row {
             id:contentArea
-            width: parent.width; height: parent.height *　0.75
+            width: parent.width; height: parent.height*0.75
             spacing: 15
 
             Column {

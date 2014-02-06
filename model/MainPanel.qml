@@ -13,7 +13,6 @@ Rectangle {
         property int previousIndex: 0
 
         onPageChange: {
-
             if(previousIndex + 1 == index || previousIndex == menuList.count - 1 && index == 0) {
                 stackView.delegate = rightToLeftDelegate;
             } else {
@@ -40,7 +39,6 @@ Rectangle {
         id: stackView
         anchors.fill: parent;
         anchors.topMargin: 24
-
         initialItem:userInfo;
 
         UserInfoPanel{
@@ -79,6 +77,7 @@ Rectangle {
 
         StackViewDelegate {
             id: rightToLeftDelegate
+
             function transitionFinished(properties)
             {
                 properties.exitItem.x = 0

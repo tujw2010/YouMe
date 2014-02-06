@@ -5,9 +5,9 @@ Rectangle {
     id: menuBar
     color:"transparent"
 
-    signal pageChange(int index);
-
     property alias menuList: pathView
+
+    signal pageChange(int index);
 
     ListModel {
         id: menuModel
@@ -22,8 +22,8 @@ Rectangle {
         anchors.fill: parent; anchors.topMargin: 15
         dragMargin: parent.height
 
-        onCurrentItemChanged: {
-            menuBar.pageChange(pathView.currentIndex);
+        onCurrentIndexChanged: {
+            pageChange(currentIndex)
         }
 
         model: menuModel
@@ -52,7 +52,7 @@ Rectangle {
 
         interactive:true
         snapMode: PathView.SnapOneItem
-        maximumFlickVelocity:300
+        maximumFlickVelocity:200
         path: Path {
             startX: 0; startY: 0
             PathLine { x: window.width - 25; y: 0}
