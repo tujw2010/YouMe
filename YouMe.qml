@@ -3,7 +3,7 @@ import "model"
 
 Rectangle {
     id:window
-    width: 320;height: 450
+    width: 450;height: 800
 
     Rectangle {
         anchors.fill: parent;
@@ -26,12 +26,12 @@ Rectangle {
             visible: loginPanel.state == "login"
         }
 
-            LoginPanel {
-                id:loginPanel
-                x:0; y:appTitle.height
-                width: parent.width; height: parent.height - appTitle.height
-                clip: true;
-            }
+        LoginPanel {
+            id:loginPanel
+            x:0; y:appTitle.height
+            width: parent.width; height: parent.height - appTitle.height
+            clip: true;
+        }
     }
 
     MenuBar {

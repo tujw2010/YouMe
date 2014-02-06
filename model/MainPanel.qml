@@ -91,11 +91,13 @@ Rectangle {
                     property: "x"
                     from: enterItem.width
                     to: 0
+                    duration: 150;
                 }
                 PropertyAnimation {
                     target: exitItem
                     property: "x"
                     to: -exitItem.width
+                    duration: 150;
                 }
             }
         }
@@ -115,12 +117,14 @@ Rectangle {
                     target: exitItem
                     property: "x"
                     to: exitItem.width
+                    duration: 150;
                 }
                 PropertyAnimation {
                     target: enterItem
                     property: "x"
                     from: -enterItem.width
                     to: 0
+                    duration: 150;
                 }
             }
         }
@@ -132,6 +136,6 @@ Rectangle {
         target:mainPanel
         property: "opacity";
         from: 0; to: 1;
-        duration: 500
+        duration: 300
     }
 }
